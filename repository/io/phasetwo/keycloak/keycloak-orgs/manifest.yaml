@@ -1,0 +1,17 @@
+mf-version: '1'
+
+namespace: 'io.phasetwo.keycloak'
+extension: 'keycloak-orgs'
+git-repo: 'github.com/p2-inc/keycloak-orgs'
+description: 'Single realm, multi-tenancy for SaaS apps'
+url: https://github.com/p2-inc/keycloak-orgs'
+
+keycloak:
+  23.x.x:
+    version: '0.56'
+    git-tag: 'v0.56'
+    dependencies: 
+      maven: 
+        - 'dnsjava:dnsjava:3.5.3'
+      ker:
+        - 'io.phasetwo.keycloak:keycloak-events:0.22'

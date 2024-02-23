@@ -11,6 +11,11 @@ This tries to solve the following problems:
 
 Basically, it's a simple as opening a PR to `main` with your manifest file in the `repository` under your package directory (e.g. `io.phasetwo`). Assuming your manifest file is compliant and you "own" (need to define) the namespace/package, the automation does the rest.
 
+### Requirements of your extension
+- be hosted on GitHub
+- be built using Maven using a simple `mvn clean install`
+- produce a non-fat jar file able to be deployed in Keycloak
+
 ### Manifest file format
 
 ```yaml
@@ -18,25 +23,25 @@ mf-version: '1'
 
 namespace: 'io.phasetwo.keycloak'
 extension: 'keycloak-orgs'
-version: '0.56'
+git-repo: 'github.com/p2-inc/keycloak-orgs'
 
-dependencies: 
-  maven: 
-    - 'dnsjava:dnsjava:3.5.3'
-  ker:
-    - 'io.phasetwo.keycloak:keycloak-events:0.22'
-
-keycloak-versions:
-  
+keycloak:
+  23.x.x:
+    version: '0.56'
+    git-version: 'tag-v0.56'
+    dependencies: 
+      maven: 
+        - 'dnsjava:dnsjava:3.5.3'
+      ker:
+        - 'io.phasetwo.keycloak:keycloak-events:0.22'
 ```
 
 ### What the validation action does, and how to read the output
 
-#### Check
+#### Check/Build/Package
 
-- built agains the correct version of Keycloak
-
-#### Build/package
+- pom has the correct version of Keycloak
+- kc.sh build makes it without errors
 
 
 ### What you get out of it
@@ -47,3 +52,6 @@ keycloak-versions:
 
 ## Installing extensions from the repository
 
+??
+- Way to load at kc.sh build/start time?
+- Template for building and image/bundle?
