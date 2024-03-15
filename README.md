@@ -25,9 +25,9 @@ git-url: "https://github.com/example/plugin.git"
 versions:
   0.60.1:
     keycloak: [23.0.0,23.0.7)
-	artifact-url: 
-	artifact-sha: 
-	release-notes-url:
+    artifact-url: 
+    artifact-sha: 
+    release-notes-url:
     git-tag: 'tag-v0.56'
     dependencies: 
       maven: 
