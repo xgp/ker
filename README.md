@@ -9,26 +9,26 @@ This tries to solve the following problems:
 
 ## Publishing extensions
 
-Basically, it's a simple as opening a PR to `main` with your manifest file in the `repository` under your package directory (e.g. `io.phasetwo`). Assuming your manifest file is compliant and you "own" (need to define) the namespace/package, the automation does the rest.
-
-### Requirements of your extension
-- be hosted on GitHub
-- be built using Maven using a simple `mvn clean install`
-- produce a non-fat jar file able to be deployed in Keycloak
+Basically, it's a simple as opening a PR to `main` with a manifest file and (optionally) a README in the `repository` under your package directory (e.g. `io.phasetwo`). Assuming your manifest file is compliant and you "own" (need to define) the namespace/package, the automation does the rest.
 
 ### Manifest file format
 
 ```yaml
-mf-version: '1'
+version: '1'
 
-namespace: 'io.phasetwo.keycloak'
-extension: 'keycloak-orgs'
-git-repo: 'github.com/p2-inc/keycloak-orgs'
+package: "com.mycompany.myplugin"
+name: "My Plugin"
+description: "This is my plugin"
+doc-url: "https://example.com"
+git-url: "https://github.com/example/plugin.git"
 
-keycloak:
-  23.x.x:
-    version: '0.56'
-    git-version: 'tag-v0.56'
+versions:
+  0.60.1:
+    keycloak: [23.0.0,23.0.7)
+	artifact-url: 
+	artifact-sha: 
+	release-notes-url:
+    git-tag: 'tag-v0.56'
     dependencies: 
       maven: 
         - 'dnsjava:dnsjava:3.5.3'
@@ -36,22 +36,38 @@ keycloak:
         - 'io.phasetwo.keycloak:keycloak-events:0.22'
 ```
 
+#### Definitions
+
+Required unless specified
+
+- `version` Manifest file version. Currently only `1`.
+- `package` Approved namespace.
+- `name` Extension name.
+- `description` Extension description (optional).
+- `doc-url` Documentation URL (optional). Can be duplicated in each version, if different.
+- `scm-url` Source code URL (optional).Can be duplicated in each version, if different.
+- `versions` Array of extension versions. Each is an object with version name/number as key.
+  - `keycloak` Keycloak version range. E.g. `[23.0.0,23.0.7)`. Uses [standard Maven version range syntax](https://cwiki.apache.org/confluence/display/MAVENOLD/Dependency+Mediation+and+Conflict+Resolution#DependencyMediationandConflictResolution-DependencyVersionRanges). Unbounded ranges will not be accepted.
+  - `artifact-url` Jar URL.
+  - `artifact-sha` Jar SHA1.
+  - `release-notes-url` Release notes URL (optional).
+  - `scm-tag` Source control tag (optional).
+  - `dependencies` Maven or KER dependencies lists in the format `<group>:<name>:<version>`. Transitive dependencies are not resolved.
+    - `maven` List of Maven dependencies.
+    - `ker` List of KER dependencies.
+
+
 ### What the validation action does, and how to read the output
 
 #### Check/Build/Package
 
-- pom has the correct version of Keycloak
-- kc.sh build makes it without errors
-
+- Checks URLs
+- Validates/Caches jar and checks SHA1
 
 ### What you get out of it
 
 - Page on the ker site
-- Jar(s) in the repo
 
+### Installing extensions from the repository
 
-## Installing extensions from the repository
-
-??
-- Way to load at kc.sh build/start time?
-- Template for building and image/bundle?
+?? Helper tools in the future
